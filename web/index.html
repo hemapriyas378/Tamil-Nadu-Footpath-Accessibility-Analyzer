@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TN Footpath Accessibility Analyzer</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+body{margin:0;font-family:Arial;background:#f3f6f9;color:#172033}header{background:#173b57;color:white;padding:20px 5%}
+main{max-width:1150px;margin:auto;padding:22px}.stats{display:flex;gap:14px;flex-wrap:wrap}
+.stat{background:white;padding:16px 22px;border-radius:10px;min-width:160px;box-shadow:0 1px 5px #0001}
+.stat b{display:block;font-size:25px;margin-top:7px}#map{height:520px;border-radius:12px}
+.note{background:#fff5df;padding:13px;border-radius:8px;margin:18px 0}
+</style></head><body>
+<header><h1>Tamil Nadu Footpath Accessibility Analyzer</h1>All 38 districts · Evidence-led pedestrian infrastructure mapping</header>
+<main><section class="stats">
+<div class="stat">Stored observations<b id="total">0</b></div>
+<div class="stat">Initial target<b>20,000</b></div>
+<div class="stat">Field-verified<b id="verified">0</b></div></section>
+<div class="note">Mapped infrastructure is not automatically accessible. Scores will only be published when evidence requirements are met.</div>
+<h2>Map of collected observations</h2><div id="map"></div><p id="status">Loading…</p></main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const map=L.map('map').setView([10.9,78.4],7);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
+fetch('/api/observations').then(r=>r.json()).then(d=>{
+document.getElementById('total').textContent=d.total_records;
+document.getElementById('verified').textContent=d.items.filter(x=>x.evidence_status==='field_verified').length;
+d.items.forEach(x=>L.circleMarker([x.latitude,x.longitude]).bindPopup(`${x.feature_type} · ${x.district}<br>${x.evidence_status}`).addTo(map));
+document.getElementById('status').textContent=`${d.items.length} records displayed.`;
+}).catch(()=>document.getElementById('status').textContent='Start the API server to load observations.');
+</script></body></html>

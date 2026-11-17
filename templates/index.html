@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Tamil Nadu Footpath Accessibility Analyzer</title>
+
+    <!-- Leaflet CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <!-- Dashboard CSS -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div>
+            <h1>Tamil Nadu Footpath Accessibility Analyzer</h1>
+            <p>District-wise pedestrian infrastructure analysis</p>
+        </div>
+
+        <span class="status">System Online</span>
+    </header>
+
+    <main class="container">
+
+        <!-- Dashboard Statistics -->
+        <section class="stats">
+
+            <div class="card">
+                <h3>Total Records</h3>
+                <p id="totalRecords">Loading...</p>
+            </div>
+
+            <div class="card">
+                <h3>Districts Covered</h3>
+                <p id="districtCount">Loading...</p>
+            </div>
+
+            <div class="card">
+                <h3>Footways</h3>
+                <p id="footwayCount">Loading...</p>
+            </div>
+
+            <div class="card">
+                <h3>Crossings</h3>
+                <p id="crossingCount">Loading...</p>
+            </div>
+
+        </section>
+
+        <!-- Infrastructure Filters -->
+        <section class="filters">
+
+            <h2>Explore Infrastructure</h2>
+
+            <label for="districtFilter">Select District</label>
+
+            <select id="districtFilter">
+                <option value="">All Districts</option>
+            </select>
+
+            <label for="featureFilter">Feature Type</label>
+
+            <select id="featureFilter">
+                <option value="">All Features</option>
+                <option value="footway">Footway</option>
+                <option value="sidewalk">Sidewalk</option>
+                <option value="crossing">Crossing</option>
+            </select>
+
+            <button onclick="loadRecords()">Apply Filters</button>
+
+        </section>
+
+        <!-- Infrastructure Map -->
+        <section class="map-section">
+
+            <h2>Infrastructure Map</h2>
+
+            <div id="map"></div>
+
+        </section>
+
+        <!-- District Attribute Coverage -->
+        <section class="chart-section">
+
+            <h2>District-wise Accessibility Data Coverage</h2>
+
+            <p>
+                Percentage of records containing mapped accessibility
+                attributes. Missing information does not indicate
+                inaccessibility.
+            </p>
+
+            <div class="chart-container">
+                <canvas id="coverageChart"></canvas>
+            </div>
+
+        </section>
+
+        <!-- District Comparison Chart -->
+        <section class="chart-section">
+
+            <h2>District-wise Accessibility Comparison</h2>
+
+            <p>
+                Comparison of mapped evidence scores, attribute coverage,
+                and mapped record counts across 38 districts.
+            </p>
+
+            <div class="chart-container">
+                <canvas id="districtComparisonChart"></canvas>
+            </div>
+
+        </section>
+
+        <!-- Separate Attribute Coverage Chart -->
+        <section class="chart-section">
+
+            <h2>District-wise Attribute Coverage</h2>
+
+            <p>
+                Percentage of mapped records containing each accessibility
+                attribute. Missing tags are treated as unknown.
+            </p>
+
+            <div class="chart-container">
+                <canvas id="districtCoverageChart"></canvas>
+            </div>
+
+        </section>
+
+        <!-- Evidence Score Chart -->
+        <section class="chart-section">
+
+            <h2>District-wise Evidence Scores</h2>
+
+            <p>
+                Average accessibility evidence scores based on available
+                mapped attributes. These are not verified accessibility
+                ratings.
+            </p>
+
+            <div class="chart-container">
+                <canvas id="districtEvidenceChart"></canvas>
+            </div>
+
+        </section>
+
+        <!-- Infrastructure Records -->
+        <section class="table-section">
+
+            <h2>Infrastructure Records</h2>
+
+            <p id="recordCount">Loading records...</p>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>District</th>
+                            <th>Feature</th>
+                            <th>Latitude</th>
+                            <th>Longitude</th>
+                            <th>Evidence Score</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="recordsTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Dashboard JavaScript -->
+    <script src="/static/script.js"></script>
+
+</body>
+</html>
